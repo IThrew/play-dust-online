@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dust Particle Collector</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: black;
+      color: white;
+      font-family: monospace;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #counter {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    #dust {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: gray;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dust Particle Collector</h1>
+  <div id="counter">Dust Collected: 0</div>
+  <div id="dust"></div>
+
+  <script>
+    let counter = 0;
+    const dust = document.getElementById("dust");
+    const counterText = document.getElementById("counter");
+
+    function spawnDust() {
+      // Random position inside viewport
+      const maxX = window.innerWidth - 20;
+      const maxY = window.innerHeight - 20;
+      dust.style.left = Math.random() * maxX + "px";
+      dust.style.top = Math.random() * maxY + "px";
+      dust.style.display = "block";
+    }
+
+    dust.onclick = () => {
+      counter++; // absolutely meaningless
+      counterText.innerText = "Dust Collected: " + counter;
+      dust.style.display = "none";
+      // 5 minute delay before next dust
+      setTimeout(spawnDust, 5 * 60 * 1000);
+    };
+
+    spawnDust();
+    // make it responsive on window resize
+    window.addEventListener("resize", () => {
+      if (dust.style.display === "block") spawnDust();
+    });
+  </script>
+</body>
+</html>
